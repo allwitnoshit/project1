@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+    <title>Search Books!</title>
+  </head>
+  <body>
+       
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark ">
+    	<div class="container">	
+    		<a class="navbar-brand" href="/">Books Paradise</a>
+    		<button class="navbar-toggler" data-toggle="collapse" data-target="#navbarid">
+    			<span class="navbar-toggler-icon"></span>
+    		</button>
+    		<div class="collapse navbar-collapse" id="navbarid">
+    		<ul class="navbar-nav text-center ml-auto">
+    			<li class="nav-item">
+    				<a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+    				<a class="nav-link" href="#">{{user}}</a>
+    			</li>
+    			<li class="nav-item">
+    				<a class="nav-link" href="/logout">Logout</a>
+    			</li>
+    		</ul>
+    	    </div>
+    	</div>
+    </nav>
+    <br></br>
+    <h1 class="text-center">Search Books !</h1> 
+
+    <div class="container">
+    <form class="search_bar" action="/search" method="POST">
+         <div class="form-row py-3 my-3">
+            <div class="col">
+              <input type="search" class="form-control" name="search" placeholder="Title, Author or ISBN">
+            </div>
+            <button class="btn btn-primary"> Search </button>
+        </div>
+        
+    </form>
+    
+    {% block body %}
+        {% if not results|length  %}
+          <h3 class="text-center"> No results found. Please try again.</h3>
+        {% else %}
+        {% for result in results %}
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">{{result['title']}}</h5>
+            <p class="card-text">Author: {{result['author']}} </p>
+            <p class="card-text">ISBN: {{result['isbn']}}</p>
+            <a href="{{result['isbn']}}" class="btn btn-primary">Details</a>
+          </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    {% endblock %}
+    
+</body>
+</html>

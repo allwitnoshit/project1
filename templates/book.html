@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>{{title}}</title>
+  </head>
+  
+  <body>
+
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark ">
+    	<div class="container">	
+    		<a class="navbar-brand" href="/">Books Paradise</a>
+    		<button class="navbar-toggler" data-toggle="collapse" data-target="#navbarid">
+    			<span class="navbar-toggler-icon"></span>
+    		</button>
+    		<div class="collapse navbar-collapse" id="navbarid">
+    		<ul class="navbar-nav text-center ml-auto">
+    			<li class="nav-item">
+    				<a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+    				<a class="nav-link" href="#">{{user}}</a>
+    			</li>
+    			<li class="nav-item">
+    				<a class="nav-link" href="/logout">Logout</a>
+    			</li>
+    		</ul>
+    	    </div>
+    	</div>
+    </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <br></br>
+    <h2 class="text-center">Search for a different book:</h2>
+
+    <div class="container">
+        <form class="search_bar" action="/search" method="POST">
+             <div class="form-row py-3 my-3">
+                <div class="col">
+                  <input type="search" class="form-control" name="search" placeholder="Title, Author or ISBN">
+                </div>
+                <button class="btn btn-primary"> Search </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container">
+    
+    {% block body %}
+        <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">{{title}}</h5>
+              <p class="card-text">Author: {{author}} </p>
+              <p class="card-text">Publication Year: {{year}}</p>
+              <p class="card-text">ISBN: {{isbn}}</p>
+              <p class="card-text">Goodreads rating: {{rating}} </p>
+              <p class="card-text">Total Ratings: {{count}}</p>
+            </div>
+        </div>
+
+        {% if reviews|length %}
+        <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">User Reviews :</h5>
+              {% for review in reviews %}
+              <p class="card-text">{{review['username']}}: ({{review['rating']}} Stars)  {{review['review']}}</p>
+              {% endfor %}
+            </div>
+        </div>        
+        {% endif %}
+        
+        <div class="card text-center">
+            <div class="card-body">
+            <h5 class="card-title">Leave a review for {{title}}:</h5>
+            <form action="/submit" method="POST">
+            <div>
+                <div>
+                    <label>Rating :</label>
+                    <select class="col my-3" name="rating">
+                        <option selected>Choose...</option>
+                        <option value="1">1 Star</option>
+                        <option value="2">2 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="5">5 Stars</option>
+                    </select>                      
+                </div>
+                <h5>Write your review (Optional)</h5> 
+                <div class="row">
+                    <textarea class="form-control" placeholder="Type your review here" name="review" rows="3" cols="70"></textarea>
+                </div>
+                <input type="hidden" value="{{isbn}}" name="isbn"> 
+                <button class="btn btn-primary my-3"> Submit </button>
+            </div>
+            </form>              
+            </div>
+        </div>
+        
+    {% endblock %}  
+    </div>
+
+  </body>
+</html>
